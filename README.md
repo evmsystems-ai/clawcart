@@ -1,5 +1,7 @@
 # 🛒 ClawCart
 
+[![CI](https://github.com/evmsystems-ai/clawcart/actions/workflows/ci.yml/badge.svg)](https://github.com/evmsystems-ai/clawcart/actions/workflows/ci.yml)
+
 **AI-powered shopping carts across 200+ retailers**
 
 > "Build my kid's 3rd grade supply list under $50"
