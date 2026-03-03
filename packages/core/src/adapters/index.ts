@@ -1,16 +1,19 @@
-export { AdapterRegistry, registry } from './registry';
-export { BaseAdapter } from './base';
-export { MockAdapter } from './mock';
-export { AmazonAdapter } from './amazon';
+/**
+ * Retailer URL helpers
+ * 
+ * These provide URL building utilities for navigation.
+ * Actual cart sharing is done via Share a Cart browser extension.
+ */
 
-// Register default adapters
-import { registry } from './registry';
-import { MockAdapter } from './mock';
-import { AmazonAdapter } from './amazon';
+export { UrlRegistry, urlRegistry } from './registry';
+export { RetailerUrlHelper } from './base';
+export { MockUrls } from './mock';
+export { AmazonUrls } from './amazon';
 
-registry.register(new MockAdapter());
-registry.register(new AmazonAdapter());
+// Register default helpers
+import { urlRegistry } from './registry';
+import { MockUrls } from './mock';
+import { AmazonUrls } from './amazon';
 
-// Future adapters:
-// export { WalmartAdapter } from './walmart';
-// export { TargetAdapter } from './target';
+urlRegistry.register(new MockUrls());
+urlRegistry.register(new AmazonUrls());

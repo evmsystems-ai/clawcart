@@ -1,59 +1,20 @@
-import type {
-  RetailerAdapter,
-  Product,
-  CartItem,
-  SearchOptions,
-  AvailabilityStatus,
-} from '../types';
-
 /**
- * Base adapter class with common functionality
+ * Base class for retailer URL helpers
+ * 
+ * These are NOT adapters for scraping - they just provide URL building utilities.
+ * Actual cart sharing is done via the Share a Cart browser extension.
  */
-export abstract class BaseAdapter implements RetailerAdapter {
+
+import type { RetailerUrls } from '../types';
+
+export abstract class RetailerUrlHelper implements RetailerUrls {
   abstract readonly name: string;
   abstract readonly displayName: string;
-  abstract readonly supportsApi: boolean;
 
-  /**
-   * Search for products
-   */
-  abstract search(query: string, options?: SearchOptions): Promise<Product[]>;
-
-  /**
-   * Get single product by ID
-   */
-  abstract getProduct(productId: string): Promise<Product | null>;
-
-  /**
-   * Build cart URL for checkout
-   */
-  abstract buildCartUrl(items: CartItem[]): Promise<string>;
-
-  /**
-   * Check product availability
-   */
-  async checkAvailability(productId: string): Promise<AvailabilityStatus> {
-    const product = await this.getProduct(productId);
-    
-    if (!product) {
-      return { inStock: false };
-    }
-    
-    return {
-      inStock: product.inStock,
-      price: product.price,
-    };
-  }
-
-  /**
-   * Helper: Normalize search query
-   */
-  protected normalizeQuery(query: string): string {
-    return query
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, ' ');
-  }
+  abstract getHomeUrl(): string;
+  abstract getCartUrl(): string;
+  abstract getProductUrl(productId: string): string;
+  abstract getSearchUrl(query: string): string;
 
   /**
    * Helper: Build URL with query params
@@ -64,5 +25,12 @@ export abstract class BaseAdapter implements RetailerAdapter {
       url.searchParams.set(key, String(value));
     }
     return url.toString();
+  }
+
+  /**
+   * Helper: Normalize search query (trim only, URL encoding is handled by buildUrl)
+   */
+  protected encodeQuery(query: string): string {
+    return query.trim();
   }
 }

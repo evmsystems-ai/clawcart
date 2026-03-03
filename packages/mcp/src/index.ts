@@ -2,39 +2,35 @@
  * ClawCart MCP Server
  * 
  * Implements Model Context Protocol for ClawCart tools.
+ * Simple cart tracking + Share a Cart extension integration.
  */
 
 import { ClawCart } from '@clawcart/core';
 
 export const MCP_TOOLS = [
   {
-    name: 'clawcart_search',
-    description: 'Search for products across retailers',
-    inputSchema: {
-      type: 'object' as const,
-      properties: {
-        query: { type: 'string', description: 'Product search query' },
-        retailer: { 
-          type: 'string', 
-          enum: ['amazon', 'walmart', 'target', 'auto'],
-          default: 'auto'
-        },
-        maxResults: { type: 'number', default: 10 },
-      },
-      required: ['query'],
-    },
-  },
-  {
     name: 'clawcart_add',
     description: 'Add item to shopping cart',
     inputSchema: {
       type: 'object' as const,
       properties: {
-        query: { type: 'string', description: 'Product search or name' },
-        productId: { type: 'string', description: 'Specific product ID' },
+        name: { type: 'string', description: 'Item name' },
         quantity: { type: 'number', default: 1 },
+        price: { type: 'number', description: 'Price per item (optional)' },
+        notes: { type: 'string', description: 'Notes for the item (optional)' },
       },
-      required: [],
+      required: ['name'],
+    },
+  },
+  {
+    name: 'clawcart_remove',
+    description: 'Remove item from cart by ID',
+    inputSchema: {
+      type: 'object' as const,
+      properties: {
+        itemId: { type: 'string', description: 'Item ID to remove' },
+      },
+      required: ['itemId'],
     },
   },
   {
@@ -46,13 +42,19 @@ export const MCP_TOOLS = [
     },
   },
   {
-    name: 'clawcart_share',
-    description: 'Generate shareable cart link',
+    name: 'clawcart_clear',
+    description: 'Clear all items from cart',
     inputSchema: {
       type: 'object' as const,
-      properties: {
-        message: { type: 'string', description: 'Message to include with share' },
-      },
+      properties: {},
+    },
+  },
+  {
+    name: 'clawcart_instructions',
+    description: 'Get instructions for sharing cart via Share a Cart extension',
+    inputSchema: {
+      type: 'object' as const,
+      properties: {},
     },
   },
 ];
@@ -78,35 +80,42 @@ export async function handleToolCall(
   const cart = getCart(sessionId);
   
   switch (toolName) {
-    case 'clawcart_search': {
-      const results = await cart.search(params.query as string, {
-        maxResults: (params.maxResults as number) || 10,
-      });
-      return { products: results };
-    }
-    
     case 'clawcart_add': {
-      const item = await cart.addItem({
-        query: params.query as string,
-        productId: params.productId as string,
+      const item = cart.addItem({
+        name: params.name as string,
         quantity: (params.quantity as number) || 1,
+        price: params.price as number | undefined,
+        notes: params.notes as string | undefined,
       });
       return { 
         added: item,
         cartTotal: cart.total,
-        itemCount: cart.items.length,
+        itemCount: cart.itemCount,
+      };
+    }
+    
+    case 'clawcart_remove': {
+      const removed = cart.removeItem(params.itemId as string);
+      return { 
+        removed,
+        itemCount: cart.itemCount,
       };
     }
     
     case 'clawcart_cart': {
-      return cart.getCart();
+      return cart.toSimple();
     }
     
-    case 'clawcart_share': {
-      const url = await cart.share({
-        message: params.message as string,
-      });
-      return { shareUrl: url };
+    case 'clawcart_clear': {
+      cart.clear();
+      return { cleared: true };
+    }
+    
+    case 'clawcart_instructions': {
+      return { 
+        instructions: cart.getShareInstructions(),
+        itemCount: cart.itemCount,
+      };
     }
     
     default:

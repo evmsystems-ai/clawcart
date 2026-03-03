@@ -1,174 +1,210 @@
 # 🛒 ClawCart
 
-[![CI](https://github.com/evmsystems-ai/clawcart/actions/workflows/ci.yml/badge.svg)](https://github.com/evmsystems-ai/clawcart/actions/workflows/ci.yml)
+**Simple cart tracking + Share a Cart extension integration for AI agents**
 
-**AI-powered shopping carts across 200+ retailers**
-
-> "Build my kid's 3rd grade supply list under $50"
-
-ClawCart is an [OpenClaw](https://openclaw.ai) recipe that lets AI agents build, optimize, and share shopping carts through natural language. Describe what you need — the agent handles product discovery, price comparison, and cart sharing. You approve before checkout.
+ClawCart is a lightweight SDK for [OpenClaw](https://openclaw.ai) agents to build and share shopping carts across 200+ retailers using the [Share a Cart](https://share-a-cart.com) browser extension.
 
 ## The Problem
 
-- Shopping across retailers = tabs everywhere, manual price comparison
-- Shared shopping (families, teams) = awkward link forwarding
-- Supply lists (schools, offices) = tedious item-by-item hunting
-- Reordering = repeating the same work every time
+AI agents need to help users shop, but building product scrapers for each retailer is:
+- Fragile (DOM changes break scrapers)
+- Expensive (browser automation at scale)
+- Redundant (Share a Cart already solved this)
 
 ## The Solution
 
+ClawCart takes a different approach:
+
+1. **Track cart state locally** — Agent knows what items to buy
+2. **Use browser automation** — Navigate to retailer, add items
+3. **Trigger Share a Cart extension** — Generate shareable link
+4. **Human approves** — User reviews cart, completes purchase
+
 ```
 ┌─────────────────────────────────────────────────────┐
-│  "Order office supplies for Q2, under $200"         │
+│  Agent: "I'll build your school supply cart"       │
 └──────────────────────┬──────────────────────────────┘
                        ▼
               ┌────────────────┐
-              │   ClawCart     │  Parses intent
-              │     Agent      │  Searches retailers
-              └────────┬───────┘  Optimizes prices
+              │   ClawCart     │  Tracks items locally
+              │   SDK          │  (name, qty, price)
+              └────────┬───────┘
                        ▼
               ┌────────────────┐
-              │  Cart Preview  │  Amazon: $89
-              │    + Link      │  Target: $76  ← Best
-              └────────┬───────┘  Walmart: $82
+              │   Browser      │  Adds items to
+              │   Automation   │  retailer cart
+              └────────┬───────┘
                        ▼
               ┌────────────────┐
-              │ Human Approval │  Review → Approve
-              └────────┬───────┘  
+              │  Share a Cart  │  Generates share
+              │   Extension    │  link for 200+ retailers
+              └────────┬───────┘
                        ▼
               ┌────────────────┐
-              │   Checkout     │  One-click purchase
+              │ Human Approval │  Review → Purchase
               └────────────────┘
 ```
 
-**Key insight:** Agent builds the cart, human approves the purchase. Safe, transparent, useful.
-
-## Features
-
-- 🎤 **Natural Language** — Describe what you need in plain English
-- 🏪 **Multi-Retailer** — Amazon, Walmart, Target, Costco + 200 more
-- 💰 **Price Optimization** — Automatic comparison across stores
-- 🔗 **Cart Sharing** — Share links for family/team approval
-- ✅ **Approval Flow** — Review before any money moves
-
-## Use Cases
-
-| Use Case | Example Prompt |
-|----------|----------------|
-| Back-to-school | "Build 3rd grade supply list under $50" |
-| Office procurement | "Order Q2 office supplies, same as last quarter" |
-| Gift coordination | "Coordinate baby shower gift, $30 each from 5 people" |
-| Household restock | "Reorder our usual Costco run" |
+**Key insight:** Don't scrape retailers. Use the extension that already works everywhere.
 
 ## Quick Start
 
-### As an OpenClaw Skill
+### Installation
 
 ```bash
-# Install the skill
-openclaw skills install clawcart
-
-# Use via chat
-"Build a shopping cart for a backyard BBQ, 10 people, $150 budget"
+npm install @clawcart/core
 ```
 
-### As a Package
+### Basic Usage
 
 ```typescript
 import { ClawCart } from '@clawcart/core';
 
-// Build cart from natural language
-const cart = await ClawCart.fromPrompt({
-  prompt: "3rd grade supply list under $50",
-  retailer: "amazon", // or 'walmart', 'target', 'auto'
+// Create a cart with items
+const cart = ClawCart.fromItems([
+  { name: 'Crayons 24-count', quantity: 2, price: 2.99 },
+  { name: '#2 Pencils 12-pack', quantity: 1, price: 3.49 },
+  { name: 'Pocket folders', quantity: 4, price: 0.99 },
+], 'amazon');
+
+console.log(`Items: ${cart.itemCount}`);
+console.log(`Estimated total: $${cart.total.toFixed(2)}`);
+
+// Get instructions for manual sharing
+console.log(cart.getShareInstructions());
+```
+
+### With Browser Automation
+
+```typescript
+import { ClawCart } from '@clawcart/core';
+import { chromium } from 'playwright';
+
+const cart = ClawCart.fromItems([
+  { name: 'Crayons 24-count', quantity: 2 },
+], 'amazon');
+
+// Use browser automation to share
+const browser = await chromium.launch();
+const page = await browser.newPage();
+
+// Navigate to retailer and add items (your automation)
+await page.goto('https://amazon.com/cart');
+// ... add items to cart ...
+
+// Trigger Share a Cart extension
+const result = await cart.share({
+  navigate: (url) => page.goto(url),
+  click: (sel) => page.click(sel),
+  waitForSelector: (sel, opts) => page.waitForSelector(sel, opts),
+  evaluate: (fn) => page.evaluate(fn),
+  getUrl: () => page.url(),
 });
 
-// Get shareable link
-const shareUrl = await cart.share();
-// → https://clawcart.ai/c/abc123
-
-// Or get the cart object
-console.log(cart.items);
-// → [{ name: "Crayons 24ct", price: 2.99, qty: 1 }, ...]
+if (result.success) {
+  console.log(`Share link: ${result.shareUrl}`);
+}
 ```
 
-### As an MCP Server
+### With OpenClaw
 
-```bash
-# Run the MCP server
-npx @clawcart/mcp
-
-# Available tools:
-# - clawcart_search: Find products across retailers
-# - clawcart_add: Add item to cart
-# - clawcart_optimize: Find best prices
-# - clawcart_share: Generate share link
+```typescript
+// As an OpenClaw skill, browser context is provided
+const cart = ClawCart.fromItems(items, 'amazon');
+const result = await cart.share(browser); // OpenClaw browser context
 ```
+
+## API
+
+### `ClawCart`
+
+#### Static Methods
+
+- `ClawCart.fromItems(items, retailer?)` — Create cart from item list
+- `ClawCart.fromSimple(simple)` — Create from serialized cart
+
+#### Instance Methods
+
+- `addItem(input)` — Add item to cart
+- `removeItem(itemId)` — Remove item by ID
+- `updateQuantity(itemId, qty)` — Update item quantity
+- `clear()` — Remove all items
+- `setName(name)` — Set cart name
+- `getCart()` — Get full cart state
+- `share(browser)` — Trigger Share a Cart extension
+- `getShareInstructions()` — Get manual sharing steps
+- `toJSON()` — Export as JSON
+- `toSimple()` — Export as simple object
+
+#### Properties
+
+- `items` — Cart items array
+- `total` — Estimated total
+- `itemCount` — Total quantity
+- `retailer` — Target retailer
+
+### URL Helpers
+
+```typescript
+import { AmazonUrls } from '@clawcart/core';
+
+const amazon = new AmazonUrls();
+amazon.getCartUrl();           // https://www.amazon.com/cart
+amazon.getProductUrl('B08..'); // https://www.amazon.com/dp/B08..
+amazon.getSearchUrl('crayons'); // https://www.amazon.com/s?k=crayons
+amazon.getAddToCartUrl([...]);  // Direct add-to-cart URL
+```
+
+## Supported Retailers
+
+ClawCart works with any retailer supported by [Share a Cart](https://share-a-cart.com/supported), including:
+
+- Amazon, Walmart, Target, Costco
+- Best Buy, Home Depot, Lowe's
+- Kroger, Walgreens, CVS
+- And 200+ more
+
+## Requirements
+
+- **Share a Cart extension** must be installed in the browser
+- **Browser automation** (Playwright, Puppeteer, or OpenClaw)
 
 ## How It Works
 
-See [Architecture](docs/ARCHITECTURE.md) for the full system design.
+1. **Agent builds cart locally** — ClawCart tracks items, quantities, prices
+2. **Browser adds to retailer** — Navigate to site, add items via automation
+3. **Extension exports cart** — Click Share a Cart button, get share link
+4. **Human reviews & buys** — User opens link, reviews, completes purchase
 
-**Core flow:**
-
-1. **Intent Parser** — NLP converts "3rd grade supply list" → structured product queries
-2. **Product Search** — Searches across configured retailers (APIs or browser automation)
-3. **Price Optimizer** — Compares prices, factors shipping, membership benefits
-4. **Cart Builder** — Assembles optimized cart with alternatives
-5. **Share Service** — Generates approval link, tracks status
-6. **Checkout** — Human clicks through to complete purchase
+The SDK never scrapes retailer sites. It just:
+- Tracks what you want to buy
+- Provides URLs for navigation
+- Triggers the Share a Cart extension
+- Captures the generated share link
 
 ## Project Structure
 
 ```
 clawcart/
-├── README.md           # You are here
-├── CONTRIBUTING.md     # How to contribute
-├── LICENSE             # MIT
-├── docs/
-│   ├── ARCHITECTURE.md # System design
-│   ├── BROWSER-ACCESS.md # Browser integration patterns
-│   ├── PRD.md          # Product requirements
-│   └── ...
 ├── packages/
-│   ├── core/           # Cart logic, retailers
+│   ├── core/           # Cart + URL helpers
 │   ├── skill/          # OpenClaw skill wrapper
 │   └── mcp/            # MCP server
-├── examples/           # Usage examples
-└── assets/             # Logos, images
+└── examples/           # Usage examples
 ```
 
-## Documentation
+## Development
 
-- [Architecture](docs/ARCHITECTURE.md) — How the system works
-- [Browser Access Patterns](docs/BROWSER-ACCESS.md) — Integration scenarios
-- [Product Requirements](docs/PRD.md) — Full PRD with use cases
-- [Contributing](CONTRIBUTING.md) — How to help build ClawCart
+```bash
+# Install dependencies
+pnpm install
 
-## Status
+# Run tests
+pnpm test
 
-🟡 **Active Development** — Core SDK in progress
-
-### Roadmap
-
-- [x] PRD & Architecture
-- [ ] Core SDK (cart builder, optimizer)
-- [ ] Amazon adapter
-- [ ] Walmart adapter  
-- [ ] Share service
-- [ ] OpenClaw skill
-- [ ] MCP server
-
-## Contributing
-
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
-
-- Setting up the dev environment
-- Code style guidelines
-- How to add retailer adapters
-- PR process
-
-Good first issues are tagged [`good-first-issue`](https://github.com/evmsystems-ai/clawcart/labels/good-first-issue).
+# Build
+pnpm build
+```
 
 ## License
 

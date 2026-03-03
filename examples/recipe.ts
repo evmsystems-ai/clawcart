@@ -1,44 +1,87 @@
 /**
- * Cart from Recipe
+ * Recipe Cart Example
  * 
- * Demonstrates using saved recipes for reordering.
+ * Shows how to create reusable shopping "recipes" that can be 
+ * loaded and reordered quickly.
  */
 
-import { ClawCart } from '@clawcart/core';
+import { ClawCart, type SimpleCart } from '@clawcart/core';
 
-// Define a reusable recipe
-const weeklyGroceries = {
-  name: 'Weekly Groceries',
-  retailer: 'amazon',
-  items: [
-    { query: 'Organic eggs 12 count', quantity: 2 },
-    { query: 'Whole milk 1 gallon', quantity: 1 },
-    { query: 'Sourdough bread', quantity: 1 },
-    { query: 'Organic bananas', quantity: 1 },
-    { query: 'Greek yogurt variety pack', quantity: 1 },
-  ],
+// Example: Saved recipes (would be stored in DB in production)
+const recipes: Record<string, SimpleCart> = {
+  'weekly-groceries': {
+    retailer: 'walmart',
+    items: [
+      { name: 'Milk 1 gallon', quantity: 2, price: 3.99 },
+      { name: 'Eggs 12-count', quantity: 1, price: 2.99 },
+      { name: 'Bread loaf', quantity: 1, price: 2.49 },
+      { name: 'Bananas 1 bunch', quantity: 2, price: 1.49 },
+      { name: 'Chicken breast 2lb', quantity: 1, price: 8.99 },
+    ],
+  },
+  
+  'office-supplies': {
+    retailer: 'amazon',
+    items: [
+      { name: 'Printer paper 500 sheets', quantity: 2, price: 8.99 },
+      { name: 'Black pens 12-pack', quantity: 1, price: 4.99 },
+      { name: 'Sticky notes 3x3', quantity: 3, price: 3.49 },
+      { name: 'Highlighters 6-pack', quantity: 1, price: 5.99 },
+    ],
+  },
+  
+  'bbq-party-10': {
+    retailer: 'costco',
+    items: [
+      { name: 'Hamburger patties 20-pack', quantity: 1, price: 24.99 },
+      { name: 'Hot dogs 24-pack', quantity: 1, price: 12.99 },
+      { name: 'Burger buns 16-count', quantity: 2, price: 4.99 },
+      { name: 'Hot dog buns 16-count', quantity: 2, price: 4.49 },
+      { name: 'Ketchup 64oz', quantity: 1, price: 5.99 },
+      { name: 'Mustard 32oz', quantity: 1, price: 3.99 },
+      { name: 'Chips variety pack', quantity: 2, price: 14.99 },
+      { name: 'Soda 36-pack', quantity: 1, price: 12.99 },
+    ],
+  },
 };
 
 async function main() {
-  // Build cart from recipe
-  const cart = await ClawCart.fromRecipe(weeklyGroceries);
-
-  console.log(`Recipe: ${weeklyGroceries.name}`);
-  console.log('Items:');
+  // User says: "Reorder the BBQ party supplies"
+  const recipeName = 'bbq-party-10';
   
+  console.log(`Loading recipe: ${recipeName}\n`);
+  
+  // Load from saved recipe
+  const saved = recipes[recipeName];
+  if (!saved) {
+    console.error('Recipe not found');
+    return;
+  }
+  
+  // Create cart from recipe
+  const cart = ClawCart.fromSimple(saved);
+  cart.setName('BBQ Party (10 people)');
+
+  // Show what we're ordering
+  console.log('=== Recipe Items ===\n');
   for (const item of cart.items) {
-    console.log(`  - ${item.name} x${item.quantity} @ $${item.price.toFixed(2)}`);
+    const subtotal = (item.price ?? 0) * item.quantity;
+    console.log(`  • ${item.name} x${item.quantity} = $${subtotal.toFixed(2)}`);
   }
 
-  console.log(`\nTotal: $${cart.total.toFixed(2)}`);
+  console.log(`\nEstimated total: $${cart.total.toFixed(2)}`);
+  console.log(`Retailer: ${cart.retailer}`);
 
-  // Share with family for approval
-  const shareUrl = await cart.share({
-    message: 'Weekly groceries - anything to add?',
-    expiresIn: 48 * 60 * 60, // 48 hours
-  });
+  // User can modify before sharing
+  console.log('\n--- Adding extra items ---\n');
+  
+  cart.addItem({ name: 'Paper plates 100-count', quantity: 1, price: 9.99 });
+  cart.addItem({ name: 'Napkins 200-count', quantity: 1, price: 6.99 });
+  
+  console.log(`New total: $${cart.total.toFixed(2)} (${cart.itemCount} items)`);
 
-  console.log(`\nShare: ${shareUrl}`);
+  // Get share instructions
+  console.log('\n' + cart.getShareInstructions());
 }
 
 main().catch(console.error);

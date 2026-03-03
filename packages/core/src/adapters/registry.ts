@@ -1,46 +1,47 @@
-import type { RetailerAdapter } from '../types';
-
 /**
- * Registry for retailer adapters
+ * Registry for retailer URL helpers
  */
-export class AdapterRegistry {
-  private adapters: Map<string, RetailerAdapter> = new Map();
+
+import type { RetailerUrls } from '../types';
+
+export class UrlRegistry {
+  private helpers: Map<string, RetailerUrls> = new Map();
 
   /**
-   * Register an adapter
+   * Register a URL helper
    */
-  register(adapter: RetailerAdapter): void {
-    this.adapters.set(adapter.name.toLowerCase(), adapter);
+  register(helper: RetailerUrls): void {
+    this.helpers.set(helper.name.toLowerCase(), helper);
   }
 
   /**
-   * Get adapter by name
+   * Get URL helper by retailer name
    */
-  get(name: string): RetailerAdapter | undefined {
-    return this.adapters.get(name.toLowerCase());
+  get(name: string): RetailerUrls | undefined {
+    return this.helpers.get(name.toLowerCase());
   }
 
   /**
-   * Check if adapter exists
+   * Check if helper exists
    */
   has(name: string): boolean {
-    return this.adapters.has(name.toLowerCase());
+    return this.helpers.has(name.toLowerCase());
   }
 
   /**
-   * List all registered adapters
+   * List all registered retailer names
    */
   list(): string[] {
-    return Array.from(this.adapters.keys());
+    return Array.from(this.helpers.keys());
   }
 
   /**
-   * Get all adapters
+   * Get all helpers
    */
-  all(): RetailerAdapter[] {
-    return Array.from(this.adapters.values());
+  all(): RetailerUrls[] {
+    return Array.from(this.helpers.values());
   }
 }
 
-// Singleton instance
-export const registry = new AdapterRegistry();
+// Singleton instance with default retailers
+export const urlRegistry = new UrlRegistry();
