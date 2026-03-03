@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClawCart - Partnership Deck</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+    }
+    
+    .slide {
+      width: 1280px;
+      height: 720px;
+      padding: 60px;
+      page-break-after: always;
+      position: relative;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
+      margin: 0 auto 40px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #00d4aa, #00a8ff, #a855f7);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: #1e1e1e;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+    
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+    }
+    
+    h1 {
+      font-size: 56px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #fff 0%, #a0a0a0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+    }
+    
+    h2 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 32px;
+      color: #fff;
+    }
+    
+    .subtitle {
+      font-size: 28px;
+      color: #888;
+      margin-bottom: 48px;
+    }
+    
+    .highlight {
+      color: #00d4aa;
+    }
+    
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+    }
+    
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    
+    .card-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+    
+    .card h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    
+    .card p {
+      font-size: 16px;
+      color: #999;
+      line-height: 1.5;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 60px;
+      margin-top: 40px;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 64px;
+      font-weight: 800;
+      color: #00d4aa;
+    }
+    
+    .stat-label {
+      font-size: 18px;
+      color: #888;
+      margin-top: 8px;
+    }
+    
+    .flow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 40px;
+    }
+    
+    .flow-step {
+      text-align: center;
+      flex: 1;
+    }
+    
+    .flow-number {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #00d4aa, #00a8ff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 auto 16px;
+    }
+    
+    .flow-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .flow-desc {
+      font-size: 14px;
+      color: #888;
+    }
+    
+    .flow-arrow {
+      font-size: 32px;
+      color: #444;
+    }
+    
+    .code-block {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 24px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      overflow: hidden;
+    }
+    
+    .code-line {
+      margin: 4px 0;
+    }
+    
+    .code-comment { color: #6a737d; }
+    .code-keyword { color: #ff7b72; }
+    .code-string { color: #a5d6ff; }
+    .code-function { color: #d2a8ff; }
+    .code-var { color: #79c0ff; }
+    
+    .use-cases {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .use-case {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+    
+    .use-case-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+    
+    .use-case-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .use-case-desc {
+      font-size: 13px;
+      color: #777;
+    }
+    
+    .partnership-box {
+      background: linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,168,255,0.1));
+      border: 2px solid rgba(0,212,170,0.3);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      margin-top: 30px;
+    }
+    
+    .partnership-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    
+    .partnership-desc {
+      font-size: 18px;
+      color: #aaa;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .footer {
+      position: absolute;
+      bottom: 30px;
+      left: 60px;
+      right: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #555;
+    }
+    
+    .retailers {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .retailer {
+      background: rgba(255,255,255,0.08);
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    .bullet-list {
+      list-style: none;
+      margin-top: 20px;
+    }
+    
+    .bullet-list li {
+      font-size: 22px;
+      padding: 12px 0;
+      padding-left: 40px;
+      position: relative;
+      color: #ccc;
+    }
+    
+    .bullet-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #00d4aa;
+      font-weight: bold;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .cta-btn {
+      padding: 16px 40px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    
+    .cta-primary {
+      background: linear-gradient(135deg, #00d4aa, #00a8ff);
+      color: #000;
+    }
+    
+    .cta-secondary {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    @media print {
+      .slide {
+        margin: 0;
+        border-radius: 0;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SLIDE 1: Title -->
+<div class="slide">
+  <div class="logo">
+    <div class="logo-icon">🛒</div>
+    <span class="logo-text">ClawCart</span>
+  </div>
+  
+  <h1>Give Every AI Agent<br>a Shopping Cart</h1>
+  <p class="subtitle">Cross-store cart building & sharing for the agent economy.<br>Powered by <span class="highlight">Share-a-Cart</span> infrastructure.</p>
+  
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">200+</div>
+      <div class="stat-label">Supported Retailers</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">1</div>
+      <div class="stat-label">API to Rule Them All</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">∞</div>
+      <div class="stat-label">Agent Use Cases</div>
+    </div>
+  </div>
+  
+  <div class="retailers">
+    <div class="retailer">Amazon</div>
+    <div class="retailer">Walmart</div>
+    <div class="retailer">Target</div>
+    <div class="retailer">Costco</div>
+    <div class="retailer">Instacart</div>
+    <div class="retailer">+ 195 more</div>
+  </div>
+  
+  <div class="footer">
+    <span>clawcart.ai</span>
+    <span>March 2026</span>
+  </div>
+</div>
+
+<!-- SLIDE 2: The Problem & Solution -->
+<div class="slide">
+  <div class="logo">
+    <div class="logo-icon">🛒</div>
+    <span class="logo-text">ClawCart</span>
+  </div>
+  
+  <h2>The Agent Commerce Problem</h2>
+  
+  <div class="grid-2">
+    <div>
+      <h3 style="color: #ff6b6b; font-size: 24px; margin-bottom: 20px;">❌ Today</h3>
+      <ul class="bullet-list" style="list-style: none;">
+        <li style="color: #888;">AI agents can research products but can't buy</li>
+        <li style="color: #888;">Each retailer requires separate integration</li>
+        <li style="color: #888;">No standard for agent-to-human handoff</li>
+        <li style="color: #888;">Cart state doesn't persist or share</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="color: #00d4aa; font-size: 24px; margin-bottom: 20px;">✅ With ClawCart</h3>
+      <ul class="bullet-list">
+        <li>One SDK for 200+ retailers</li>
+        <li>Agent builds cart → human approves → done</li>
+        <li>Shareable cart links work everywhere</li>
+        <li>Built on proven Share-a-Cart infra</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="partnership-box">
+    <div class="partnership-title">🤝 Strategic Partnership Opportunity</div>
+    <div class="partnership-desc">
+      ClawCart brings Share-a-Cart's proven technology to the rapidly growing AI agent market — 
+      unlocking new users, new use cases, and new revenue streams.
+    </div>
+  </div>
+  
+  <div class="footer">
+    <span>clawcart.ai</span>
+    <span>The Problem</span>
+  </div>
+</div>
+
+<!-- SLIDE 3: How It Works -->
+<div class="slide">
+  <div class="logo">
+    <div class="logo-icon">🛒</div>
+    <span class="logo-text">ClawCart</span>
+  </div>
+  
+  <h2>How It Works</h2>
+  <p style="color: #888; font-size: 20px; margin-bottom: 20px;">Three steps from request to checkout</p>
+  
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-number">1</div>
+      <div class="flow-title">User Asks Agent</div>
+      <div class="flow-desc">"Order school supplies<br>for 3rd grade under $50"</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-number">2</div>
+      <div class="flow-title">Agent Builds Cart</div>
+      <div class="flow-desc">Searches products, compares<br>prices, assembles cart</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-number">3</div>
+      <div class="flow-title">Share Link Generated</div>
+      <div class="flow-desc">share-a-cart.com/c/abc123<br>One-click import & checkout</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-number">4</div>
+      <div class="flow-title">Human Approves</div>
+      <div class="flow-desc">Review items, modify if<br>needed, complete purchase</div>
+    </div>
+  </div>
+  
+  <div class="grid-2" style="margin-top: 50px;">
+    <div class="code-block">
+      <div class="code-line"><span class="code-comment">// Agent code - it's this simple</span></div>
+      <div class="code-line"><span class="code-keyword">const</span> <span class="code-var">cart</span> = <span class="code-keyword">new</span> <span class="code-function">ClawCart</span>({ <span class="code-var">retailer</span>: <span class="code-string">'amazon'</span> });</div>
+      <div class="code-line"></div>
+      <div class="code-line"><span class="code-keyword">await</span> cart.<span class="code-function">addItem</span>({</div>
+      <div class="code-line">  <span class="code-var">query</span>: <span class="code-string">"Crayons 24-pack"</span>,</div>
+      <div class="code-line">  <span class="code-var">quantity</span>: <span class="code-string">2</span></div>
+      <div class="code-line">});</div>
+      <div class="code-line"></div>
+      <div class="code-line"><span class="code-keyword">const</span> <span class="code-var">shareUrl</span> = <span class="code-keyword">await</span> cart.<span class="code-function">share</span>();</div>
+      <div class="code-line"><span class="code-comment">// → share-a-cart.com/c/abc123</span></div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔒</div>
+      <h3>Human-in-the-Loop Safety</h3>
+      <p style="margin-bottom: 16px;">Nothing gets ordered without explicit human approval. The agent builds, the human decides.</p>
+      <p>Perfect for enterprise compliance, family shopping, and business procurement.</p>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <span>clawcart.ai</span>
+    <span>How It Works</span>
+  </div>
+</div>
+
+<!-- SLIDE 4: Use Cases & Market -->
+<div class="slide">
+  <div class="logo">
+    <div class="logo-icon">🛒</div>
+    <span class="logo-text">ClawCart</span>
+  </div>
+  
+  <h2>Target Markets & Use Cases</h2>
+  
+  <div class="use-cases">
+    <div class="use-case">
+      <div class="use-case-icon">🎒</div>
+      <div class="use-case-title">Back-to-School</div>
+      <div class="use-case-desc">Teachers share lists → parent's agent builds optimized cart</div>
+    </div>
+    <div class="use-case">
+      <div class="use-case-icon">🏢</div>
+      <div class="use-case-title">Business Procurement</div>
+      <div class="use-case-desc">Office manager describes needs → agent builds → finance approves</div>
+    </div>
+    <div class="use-case">
+      <div class="use-case-icon">💝</div>
+      <div class="use-case-title">Nonprofit Wishlists</div>
+      <div class="use-case-desc">Shelters share needs → donor agents coordinate fulfillment</div>
+    </div>
+    <div class="use-case">
+      <div class="use-case-icon">🤖</div>
+      <div class="use-case-title">Agent-to-Agent</div>
+      <div class="use-case-desc">Agents hand off carts to each other for complex workflows</div>
+    </div>
+  </div>
+  
+  <div class="grid-3" style="margin-top: 40px;">
+    <div class="card">
+      <div class="card-icon">📈</div>
+      <h3>AI Agent Market</h3>
+      <p>$5B+ by 2027. Every agent framework (LangChain, AutoGPT, OpenClaw) needs commerce capabilities.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛍️</div>
+      <h3>E-Commerce AI</h3>
+      <p>47% of consumers want AI shopping assistance. Agents are the next interface for retail.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏫</div>
+      <h3>Education Vertical</h3>
+      <p>Share-a-Cart's proven market. ClawCart automates the parent experience end-to-end.</p>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <span>clawcart.ai</span>
+    <span>Market Opportunity</span>
+  </div>
+</div>
+
+<!-- SLIDE 5: Partnership Proposal -->
+<div class="slide">
+  <div class="logo">
+    <div class="logo-icon">🛒</div>
+    <span class="logo-text">ClawCart</span>
+  </div>
+  
+  <h2>Partnership Proposal</h2>
+  
+  <div class="grid-2">
+    <div>
+      <h3 style="font-size: 24px; margin-bottom: 24px; color: #00d4aa;">What We Bring</h3>
+      <ul class="bullet-list">
+        <li>AI agent distribution (OpenClaw ecosystem)</li>
+        <li>SDK already built (TypeScript, MCP ready)</li>
+        <li>Developer community & documentation</li>
+        <li>New market: AI-native commerce</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="font-size: 24px; margin-bottom: 24px; color: #00a8ff;">What We Need</h3>
+      <ul class="bullet-list">
+        <li>API access to Share-a-Cart infrastructure</li>
+        <li>Cart creation & sharing endpoints</li>
+        <li>Retailer coverage (200+ stores)</li>
+        <li>Technical partnership & support</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="partnership-box" style="margin-top: 40px;">
+    <div class="partnership-title">💰 Revenue Model</div>
+    <div class="partnership-desc" style="text-align: left; max-width: 100%;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-top: 20px;">
+        <div>
+          <strong style="color: #00d4aa;">Affiliate Revenue</strong><br>
+          <span style="font-size: 14px;">Share existing commission structure with ClawCart-driven purchases</span>
+        </div>
+        <div>
+          <strong style="color: #00d4aa;">API Licensing</strong><br>
+          <span style="font-size: 14px;">Enterprise tier for high-volume agent deployments</span>
+        </div>
+        <div>
+          <strong style="color: #00d4aa;">Co-Marketing</strong><br>
+          <span style="font-size: 14px;">Joint GTM for back-to-school and enterprise verticals</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div style="text-align: center; margin-top: 40px;">
+    <div style="font-size: 28px; font-weight: 700; margin-bottom: 12px;">Let's build the future of agent commerce together.</div>
+    <div style="font-size: 18px; color: #888;">matt@evmsystems.ai · clawcart.ai · github.com/evmsystems-ai/clawcart</div>
+  </div>
+  
+  <div class="footer">
+    <span>clawcart.ai</span>
+    <span>Partnership</span>
+  </div>
+</div>
+
+</body>
+</html>
