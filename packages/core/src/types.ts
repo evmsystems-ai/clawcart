@@ -73,11 +73,13 @@ export interface ImportResult {
 
 export interface BrowserContext {
   // Browser automation interface (e.g., Playwright, Puppeteer, OpenClaw browser)
-  navigate(url: string): Promise<void>;
+  goto(url: string): Promise<void>;
+  navigate?(url: string): Promise<void>; // alias
   click(selector: string): Promise<void>;
   waitForSelector(selector: string, options?: { timeout?: number }): Promise<void>;
   evaluate<T>(fn: () => T): Promise<T>;
-  getUrl(): Promise<string>;
+  getUrl?(): Promise<string>;
+  url?(): string;
 }
 
 // ============================================

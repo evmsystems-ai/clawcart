@@ -270,6 +270,54 @@ export class ClawCart {
   }
 
   // ============================================
+  // Browser Automation Helpers
+  // ============================================
+
+  /**
+   * Navigate to retailer's cart page
+   */
+  async navigateToCart(browser: BrowserContext): Promise<void> {
+    const cartUrl = this.getRetailerUrl();
+    await browser.goto(cartUrl);
+  }
+
+  /**
+   * Navigate to retailer search for an item
+   * Agent should then help user find and add the item
+   */
+  async searchForItem(browser: BrowserContext, query: string): Promise<string> {
+    const searchUrls: Record<string, string> = {
+      amazon: `https://www.amazon.com/s?k=${encodeURIComponent(query)}`,
+      walmart: `https://www.walmart.com/search?q=${encodeURIComponent(query)}`,
+      target: `https://www.target.com/s?searchTerm=${encodeURIComponent(query)}`,
+      costco: `https://www.costco.com/CatalogSearch?keyword=${encodeURIComponent(query)}`,
+    };
+    const url = searchUrls[this.cart.retailer ?? 'amazon'] ?? searchUrls.amazon;
+    await browser.goto(url);
+    return url;
+  }
+
+  /**
+   * Build all items in cart - navigates to each search
+   * Returns list of search URLs for the agent to process
+   */
+  getSearchUrls(): Array<{ item: string; url: string }> {
+    const retailer = this.cart.retailer ?? 'amazon';
+    const baseUrls: Record<string, string> = {
+      amazon: 'https://www.amazon.com/s?k=',
+      walmart: 'https://www.walmart.com/search?q=',
+      target: 'https://www.target.com/s?searchTerm=',
+      costco: 'https://www.costco.com/CatalogSearch?keyword=',
+    };
+    const base = baseUrls[retailer] ?? baseUrls.amazon;
+    
+    return this.cart.items.map(item => ({
+      item: item.name,
+      url: `${base}${encodeURIComponent(item.name)}`,
+    }));
+  }
+
+  // ============================================
   // Serialization
   // ============================================
 
