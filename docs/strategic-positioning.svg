@@ -1,0 +1,104 @@
+<svg width="1200" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7C3AED;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#059669;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0D9488;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EA580C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9333EA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C026D3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="600" fill="#0F0F23"/>
+  
+  <!-- Title -->
+  <text x="600" y="40" font-family="system-ui, sans-serif" font-size="28" font-weight="bold" fill="#FFFFFF" text-anchor="middle">ClawCart Strategic Positioning</text>
+  
+  <!-- Share-a-Cart Box -->
+  <rect x="50" y="150" width="200" height="300" rx="12" fill="url(#blueGradient)" stroke="#FFFFFF" stroke-width="2"/>
+  <text x="150" y="180" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Share-a-Cart</text>
+  <text x="150" y="200" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Infrastructure</text>
+  
+  <!-- Share-a-Cart Features -->
+  <text x="60" y="240" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• 200+ retailers</text>
+  <text x="60" y="260" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• Cart sharing</text>
+  <text x="60" y="280" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• Webhooks</text>
+  <text x="60" y="300" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• API endpoints</text>
+  <text x="60" y="320" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• Proven tech</text>
+  
+  <!-- ClawCart Box -->
+  <rect x="350" y="150" width="200" height="300" rx="12" fill="url(#greenGradient)" stroke="#FFFFFF" stroke-width="2"/>
+  <text x="450" y="180" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">ClawCart</text>
+  <text x="450" y="200" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">API Bridge</text>
+  
+  <!-- ClawCart Features -->
+  <text x="360" y="240" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• SDK & MCP</text>
+  <text x="360" y="260" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• Rate limiting</text>
+  <text x="360" y="280" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• Auth handling</text>
+  <text x="360" y="300" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• Error handling</text>
+  <text x="360" y="320" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• EVM control</text>
+  
+  <!-- Agent Skills Box -->
+  <rect x="650" y="150" width="200" height="300" rx="12" fill="url(#orangeGradient)" stroke="#FFFFFF" stroke-width="2"/>
+  <text x="750" y="180" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Agent Skills</text>
+  <text x="750" y="200" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Distribution</text>
+  
+  <!-- Agent Skills Features -->
+  <text x="660" y="240" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• OpenClaw</text>
+  <text x="660" y="260" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• LangChain</text>
+  <text x="660" y="280" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• Zapier</text>
+  <text x="660" y="300" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• Custom agents</text>
+  <text x="660" y="320" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• Developer tools</text>
+  
+  <!-- Marketplaces Box -->
+  <rect x="950" y="150" width="200" height="300" rx="12" fill="url(#purpleGradient)" stroke="#FFFFFF" stroke-width="2"/>
+  <text x="1050" y="180" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Agent</text>
+  <text x="1050" y="200" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Marketplaces</text>
+  
+  <!-- Marketplaces Features -->
+  <text x="960" y="240" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• Claude Store</text>
+  <text x="960" y="260" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• GPT Store</text>
+  <text x="960" y="280" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• Hugging Face</text>
+  <text x="960" y="300" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• AgentWork</text>
+  <text x="960" y="320" font-family="system-ui, sans-serif" font-size="12" fill="#FFFFFF">• Scale & volume</text>
+  
+  <!-- Arrows -->
+  <!-- Share-a-Cart to ClawCart -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+     refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#FFFFFF" />
+    </marker>
+  </defs>
+  
+  <line x1="250" y1="300" x2="350" y2="300" stroke="#FFFFFF" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="350" y1="300" x2="250" y2="300" stroke="#FFFFFF" stroke-width="2"/>
+  
+  <!-- ClawCart to Agent Skills -->
+  <line x1="550" y1="300" x2="650" y2="300" stroke="#FFFFFF" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="650" y1="300" x2="550" y2="300" stroke="#FFFFFF" stroke-width="2"/>
+  
+  <!-- Agent Skills to Marketplaces -->
+  <line x1="850" y1="300" x2="950" y2="300" stroke="#FFFFFF" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="950" y1="300" x2="850" y2="300" stroke="#FFFFFF" stroke-width="2"/>
+  
+  <!-- Labels under boxes -->
+  <text x="150" y="480" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#94A3B8" text-anchor="middle">Proven Tech</text>
+  <text x="450" y="480" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#94A3B8" text-anchor="middle">Our Control</text>
+  <text x="750" y="480" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#94A3B8" text-anchor="middle">Distribution</text>
+  <text x="1050" y="480" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#94A3B8" text-anchor="middle">Volume</text>
+  
+  <!-- Flow description -->
+  <text x="600" y="530" font-family="system-ui, sans-serif" font-size="16" fill="#FFFFFF" text-anchor="middle" font-weight="bold">AI Agent Commerce Pipeline</text>
+  <text x="600" y="550" font-family="system-ui, sans-serif" font-size="14" fill="#94A3B8" text-anchor="middle">Marketplaces → Skills → ClawCart → Share-a-Cart → 200+ Retailers</text>
+</svg>
